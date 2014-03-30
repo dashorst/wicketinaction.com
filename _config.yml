@@ -1,0 +1,25 @@
+name: Wicket in Action
+markdown: redcarpet
+pygments: true
+permalink: :year/:month/:title/
+
+navigation:
+- text: the blog
+  url: /
+  layout: post
+  subnavigation:
+  - text: about
+    url: /about
+  - text: archives
+    url: /archive.html
+- text: the book
+  url: /book
+  subnavigation:
+  - text: about the book
+    url: /book
+  - text: buy the book
+    url: /buy
+  - text: downloads
+    url: /downloads
+  - text: support
+    url: /support

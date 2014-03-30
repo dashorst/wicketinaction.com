@@ -1,0 +1,24 @@
+---
+layout: post
+status: publish
+published: true
+title: Welcome to wicketinaction.com
+author: dashorst
+author_login: dashorst
+author_email: martijn.dashorst@gmail.com
+author_url: http://martijndashorst.com
+wordpress_id: 59
+wordpress_url: http://wicketinaction.com/?p=59
+date: '2008-09-18 01:20:19 +0200'
+date_gmt: '2008-09-17 23:20:19 +0200'
+categories:
+- Book
+- Wicket
+tags:
+- Welcome
+- Blog
+- Community
+comments: []
+---
+<p>Like I announced about a week ago on my blog called <a href="http://martijndashorst.com/blog">A Wicket Diary</a>, I have been creating a new companion website for <a href="http://manning.com/dashorst">Wicket in Action</a>. This website will service as my new home for blogging about <a href="http://wicket.apache.org">Apache Wicket</a>, related events, community news such as releases and I'll be writing about the book.</p>
+<p>So don't be a stranger, and add the <a href="http://feeds.feedburner.com/WicketInAction">RSS feed</a> of this site to your news reader and keep an eye out for new content.</p>

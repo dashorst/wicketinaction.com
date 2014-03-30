@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>{{ page.title }}</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/normalize.css">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body>
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/"><span>{{ site.name }}</span></a></h1>
+			<div class="menu">
+				{% assign url = page.url|remove:'/index.html' %}
+				{% assign activeMenu = nil %}
+				{% for link in site.navigation %}
+					{% assign active = nil %}
+					{% if url == "" and link.url == "/" %}
+						{% assign active = 'active' %}
+					{% elsif url == link.url or page.url == link.url %}
+						{% assign active = 'active' %}
+					{% elsif page.layout == link.layout %}
+						{% assign active = 'active' %}
+					{% elsif page.post == true and link.layout == 'post' %}
+						{% assign active = 'active' %}
+					{% else %}
+						{% for sublink in link.subnavigation %}
+							{% if url == sublink.url %}
+								{% assign active = 'active' %}
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+					{% if active == "active" %}
+						{% assign activeMenu = link %}
+					{% endif %}
+					<a class="{{ active }}" data-url="{{ page.url }}" href="{{ link.url }}">{{ link.text }}</a>
+				{% endfor %}
+			</div>
+			<div class="submenu">
+				{% if activeMenu != nil %}
+					{% for sublink in activeMenu.subnavigation %}
+						{% assign subactive = nil %}
+						{% if url == sublink.url %}
+							{% assign subactive = 'active' %}
+						{% endif %}
+						<a class="{{ subactive }}" href="{{ sublink.url }}">{{ sublink.text }}</a>
+					{% endfor %}
+				{% endif %}
+			</div>
+          </div>
+		  <div class="body">
+          {{ content }}
+		  </div>
+
+          <div class="footer">
+          </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,13 @@
+---
+layout: default
+post: true
+---
+<h2>{{ page.title }}</h2>
+<div class="meta">
+	{{ page.date | date: "%d %B %Y" }}, 
+	by {{ page.author }}
+</div>
+
+<div class="post">
+{{ content }}
+</div>
