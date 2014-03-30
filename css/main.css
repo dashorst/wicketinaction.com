@@ -86,7 +86,9 @@ div.body {
 	padding-left: 2em;	
 	max-width: 800px;
 }
-
+div.body>p:first-child {
+	margin-top:0;
+}
 article {
 	padding-top: 3em;
 }

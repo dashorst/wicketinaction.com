@@ -16,7 +16,6 @@ categories:
 tags: []
 comments: []
 ---
-
 There are dozens of Java frameworks out there, but most of them require
 you to learn special coding techniques and new, often rigid, patterns
 of development. Wicket is different. As a component-based web
@@ -113,10 +112,21 @@ build rich, Ajax-driven features into your applications.
 </tr>
 </tbody>
 </table>
-<h2>About the authors</h2>
-<p><strong>Martijn Dashorst</strong> is a software engineer with over 10 years of experience in software development. He has been actively involved in the Wicket project since it was open-sourced, and has presented Wicket as a speaker at numerous conferences, including JavaOne and JavaPolis.</p>
-<p><strong>Eelco Hillenius</strong> is an experienced software developer who has been part of Wicket's core team almost from the start. He works for Teachscape where he is helping to build the next e-learning platform. A Dutch native, he currently lives in Seattle.</p>
-<h2>Book details</h2>
+
+### About the authors
+
+**Martijn Dashorst** is a software engineer with over 10 years of
+experience in software development. He has been actively involved in
+the Wicket project since it was open-sourced, and has presented Wicket
+as a speaker at numerous conferences, including JavaOne and JavaPolis.
+
+**Eelco Hillenius** is an experienced software developer who has been
+part of Wicket's core team almost from the start. He works for
+Teachscape where he is helping to build the next e-learning platform. A
+Dutch native, he currently lives in Seattle.
+
+### Book details
+
 <table class="book-details" border="0">
 <tbody>
 <tr>
