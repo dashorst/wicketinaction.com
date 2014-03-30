@@ -17,13 +17,15 @@ tags: []
 comments: []
 ---
 
-If you have questions regarding the contents of the book, please ask
-your questions on the [Wicket in
-Action online forum][1]. This is also the appropriate forum for
-providing feedback about the book, and telling us about mistakes,
-spelling errors, and other errata in the book.
+### Problems with the book
 
-### Apache Wicket
+If you have questions regarding the contents of the book, please ask
+your questions on the [Wicket in Action online forum][1]. This is also
+the appropriate forum for providing feedback about the book, and
+telling us about mistakes, spelling errors, and other errata in the
+book.
+
+### Problems with building Apache Wicket applications
 
 If you have problems with building your own Wicket application and the
 book doesn't answer your question, you are welcome to ask us your
@@ -36,7 +38,7 @@ preference:
  * Ask on the ##wicket IRC channel on the freenode.net servers
  * Post your question on the [Wicket in Action online forum][1]
 
-### Purchasing the book
+### Problems purchasing the book
 
 If you have problems or questions regarding your purchase of the book,
 please contact your reseller.
