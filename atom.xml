@@ -3,10 +3,9 @@ layout: nil
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
- 
  <title>Wicket in Action</title>
  <link href="http://wicketinaction.com/atom.xml" rel="self"/>
- <link href="http://wicketinaction.com/"/>
+ <link href="http://wicketinaction.com/" rel="alternate"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  <id>http://wicketinaction.com/</id>
  <author>
