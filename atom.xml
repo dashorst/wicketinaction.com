@@ -1,0 +1,25 @@
+---
+layout: nil
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Wicket in Action</title>
+ <link href="http://wicketinaction.com/atom.xml" rel="self"/>
+ <link href="http://wicketinaction.com/"/>
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ <id>http://wicketinaction.com/</id>
+ <author>
+   <name>Wicket in Action</name>
+ </author>
+ 
+ {% for post in site.posts limit:20 %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="http://wicketinaction.com{{ post.url }}"/>
+   <updated>{{ post.date | date_to_xmlschema }}</updated>
+   <id>http://wicketinaction.com{{ post.id }}</id>
+   <content type="html">{{ post.content | xml_escape }}</content>
+ </entry>
+ {% endfor %}
+</feed>

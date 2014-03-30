@@ -12,6 +12,8 @@ navigation:
     url: /about
   - text: archives
     url: /archive.html
+  - text: rss
+    url: /atom.xml
 - text: the book
   url: /book
   subnavigation:
