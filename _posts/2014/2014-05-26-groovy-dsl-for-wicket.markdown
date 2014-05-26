@@ -11,7 +11,7 @@ categories:
 tags: [groovy]
 comments: []
 ---
-Eugene Kamanev has released his take on [making Wicket groovy][1]:
+Eugene Kamenev has released his take on [making Wicket groovy][1]:
 
 > Apache Wicket is great, and Groovy is also great. This project tries
 > to combine the power of both. However, sometimes Apache Wicket code
