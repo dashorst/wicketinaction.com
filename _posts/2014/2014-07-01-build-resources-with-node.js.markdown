@@ -29,7 +29,7 @@ adapters for all these useful tools.
 In my opinion it is much better to utilize the above tools directly with Node.js with its build tools like 
 <a target="_blank" href="http://gulpjs.com/">Gulp</a>, <a target="_blank" href="http://gruntjs.com/">Grunt</a>, <a target="_blank" href="http://gearjs.org/">Gear</a>, etc.
 
-To accomplish that the most easier way I've found is by using <a target="_blank" href="https://github.com/eirslett/frontend-maven-plugin">maven-frontend-plugin</a>
+To accomplish that the most easier way I've found is by using <a target="_blank" href="https://github.com/eirslett/frontend-maven-plugin">frontend-maven-plugin</a>
 - a Maven plugin that downloads Node.js for you and integrates with Gulp and Grunt.
 
 **Note**: there is a Gradle plugin in the works by the same author!
@@ -40,9 +40,9 @@ At <a target="_blank" href="https://github.com/martin-g/blogs/tree/master/wicket
 to <a target="_blank" href="https://github.com/martin-g/blogs/blob/master/wicket-nodejs-build/gulpfile.js#L21">create</a> the CSS resources
 and JSHint and UglifyJS to <a target="_blank" href="https://github.com/martin-g/blogs/blob/master/wicket-nodejs-build/gulpfile.js#L50">lint and minimize</a> 
 the JavaScript resources.
-At <a target="_blank" href="https://github.com/martin-g/blogs/blob/master/wicket-nodejs-build/pom.xml#L116">pom.xml</a> we use *maven-frontend-plugin* to execute
+At <a target="_blank" href="https://github.com/martin-g/blogs/blob/master/wicket-nodejs-build/pom.xml#L116">pom.xml</a> we use *frontend-maven-plugin* to execute
 the default Gulp task that cleans and builds the final CSS and JS resources. The usage is as simple as *mvn clean compile*. At Maven's
-*generate-sources* phase maven-frontend-plugin will execute the Gulp's tasks. 
+*generate-sources* phase frontend-maven-plugin will execute the Gulp's tasks. 
 
 **Note**: it will download Node.js and all needed Gulp plugins the first time and save them at *./node/* and *./node_modules/* folders. Make sure to ignore them in your SCM tool!
 
