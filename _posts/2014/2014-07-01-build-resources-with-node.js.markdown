@@ -66,6 +66,7 @@ that can notify browser <a target="_blank" href="http://feedback.livereload.com/
 which will reload the page.
 To try it:
 <ol>
+    <li>execute *gulp watch* on the command line, in the same folder where gulpfile.js is located</li>
     <li>install the plugin for your preferred browser</li>
     <li>start the application via Start.java (starts embedded Jetty server and LiveReload-JVM server)</li>
     <li>open http://localhost:8080 in the browser</li>
@@ -74,10 +75,14 @@ To try it:
 </ol>
 
 
-# Conclusion
+# Final words
 
 I have played with all this on Linux. I'm pretty sure it will work flawlessly on Mac too. People say that Node.js support for Windows has become
 pretty good these days so it should work there too.
 
-I hope you find all this useful. Since recently Wicket itself uses the solution described above to execute its 
+I hope you find all this useful! 
+
+Since recently Wicket itself uses the solution described above to execute its 
 <a target="_blank" href="https://github.com/apache/wicket/tree/master/testing/wicket-js-tests">JavaScript unit tests</a>.
+
+In my daily job we switched from Node.js+less.js based build to <a href="https://github.com/SomMeri/less4j">Less4j</a> because it is much faster and we have a lot of Less resources!
