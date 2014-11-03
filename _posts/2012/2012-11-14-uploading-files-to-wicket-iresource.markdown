@@ -50,6 +50,7 @@ protected ResourceResponse newResourceResponse(Attributes attributes)
 {
 	ServletWebRequest webRequest = (ServletWebRequest) attributes.getRequest();
 	MultipartServletWebRequest multiPartRequest = webRequest.newMultipartWebRequest(getMaxSize(), "ignored");
+	// Note: since Wicket 6.18.0 you will need to call "multiPartRequest.parseFileParts();" additionally here
 	Map<String, List<FileItem>> files = multiPartRequest.getFiles();
 	...
 }
