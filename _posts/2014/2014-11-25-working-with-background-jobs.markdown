@@ -14,24 +14,27 @@ comments: []
 
 # The problem 
 
-From time to Wicket users ask questions related to how to deal with background jobs in Wicket. E.g. "How do I make Application or Session available 
-to a background thread?" Or, "How do I deal with showwing some progress information, or allow the user to cancel a backgroung process?". We have build a small toy 
-project to illstrate a posible way to do it. We hope this small project could help people getting started to roll their own solutions.
+From time to time Wicket users ask questions related to how to deal with background jobs in Wicket. E.g. "How do I make Application or Session available 
+to a background thread?" Or, "How do I deal with showing some progress information, or allow the user to cancel a background process?". We have build a small toy 
+project to illustrate a possible way to do those things. We hope this project could help people get started on rolling their own solutions.
 
 The complete code of the application can be found at: <a target="_blank" href="https://github.com/reiern70/antilia-bits/tree/master/bgprocess">https://github.com/reiern70/antilia-bits/tree/master/bgprocess</a>. Feel free to just grab the code and use it in any way you please.
 
 
 # The solution
 
-We start by defining an interface that represents a Taks. i.e. some lengthy computation to be done in a background non-WEB thread.
+We start by defining an interface that represents a Task. i.e. some lengthy computation to be done in a background non-WEB thread.
 
+{% highlight java %}
 public interface ITask extends Serializable {
 
 	void doIt(ExecutionBridge bridge);
 }
+{% endhighlight %}
 
-the method doIt receives a context/bridge class that it can use to communicate with the WEB layer. 
+the method doIt() receives a context/bridge class that can be used to communicate with the WEB layer. 
 
+{% highlight java %}
 public class ExecutionBridge implements Serializable {
 
 	private String taskName;
@@ -49,16 +52,17 @@ public class ExecutionBridge implements Serializable {
 
 	... setter and gettters
 }
+{% endhighlight %}
 
 As an example we provide a dummy task, that looks like.
 
-
+{% highlight java %}
 public class DummyTask implements ITask {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DummyTask.class);
 
 	@javax.inject.Inject
-	private IAnswerService answerService;
+	private *IAnswerService* answerService;
 	
 	public DummyTask() {
 		Injector.get().inject(this);
@@ -67,6 +71,7 @@ public class DummyTask implements ITask {
 	@Override
 	public void doIt(ExecutionBridge bridge) {
 
+                // check thread locals are available
 		LOGGER.info("App: {}", Application.exists());
 		LOGGER.info("Session: {}", Session.exists());
 
@@ -93,12 +98,13 @@ public class DummyTask implements ITask {
 		}
 	}
 }
+{% endhighlight %}
 
-This task does nothing but iterate and call a service, IAnswerService, to get some text messages to pass to the WEB layer via ExecutionBridge. This class also uses information 
-contained on bridge to determine if the task should be stoped or cancelled. Mind that the task uses Wicket injection machinery to inject an implementation of IAnswerService, so, 
-that mean we need to have Application as a thread local when Injector.get().inject(this); is called. This is achieved by providing a runnable that beside executing tasks, will
+This task does nothing but iterate from 1 to 100 and repeatedly call a service, IAnswerService, to get some text messages to pass to the WEB layer via the ExecutionBridge instance. 
+This class also uses information contained on bridge to determine if the task should be stopped or canceled. Mind that the task uses Wicket injection machinery to inject an implementation of IAnswerService, so, that mean we need to have Application as a thread local when Injector.get().inject(this); is called. This is achieved by providing a runnable that beside executing tasks, will
 make sure Application and Session are attached, and properly detached, as thread locals. 
 
+{% highlight java %}
 public class TasksRunnable implements Runnable {
 
 	private final ITask task;
@@ -116,35 +122,32 @@ public class TasksRunnable implements Runnable {
 
 	@Override
 	public void run() {
-		try
-		{
+		try {
 			ThreadContext.setApplication(application);
 			ThreadContext.setSession(session);
 			task.doIt(bridge);
-		} finally
-		{
+		} finally {
 			ThreadContext.detach();
 		}
 	}
 }
+{% endhighlight %}
 
-Additionally we provide custom Session and Application classes containing the machinery to track user's running tasks and launch tasks. See
+Additionally, we provide custom Session and Application classes containing the machinery to track user's running tasks and to launch tasks, respectively. See
 
-public class BgProcessApplication extends WebApplication
-{
+{% highlight java %}
+public class BgProcessApplication extends WebApplication {
 	ExecutorService executorService =  new ThreadPoolExecutor(10, 10,
 			0L, TimeUnit.MILLISECONDS,
 			new LinkedBlockingQueue<Runnable>());
 
 	@Override
-	public Class<? extends WebPage> getHomePage()
-	{
+	public Class<? extends WebPage> getHomePage() {
 		return HomePage.class;
 	}
 
 	@Override
-	public void init()
-	{
+	public void init() {
 		super.init();
 		com.google.inject.Injector injector = Guice.createInjector(newModule());
 		getComponentInstantiationListeners().add( new GuiceComponentInjector(this, injector));
@@ -190,9 +193,11 @@ public class BgProcessApplication extends WebApplication
 		executorService.execute( new TasksRunnable(task, bridge));
 	}
 } 
+{% endhighlight %}
 
 and 
 
+{% highlight java %}
 public class BgProcessSession extends WebSession {
 
 	private List<ExecutionBridge> bridges = new ArrayList<ExecutionBridge>();
@@ -201,7 +206,8 @@ public class BgProcessSession extends WebSession {
 		super(request);
 	}
 
-	public void add(ExecutionBridge bridge) {
+	public synchronized void add(ExecutionBridge bridge) {
+		bind();
 		bridges.add(bridge);
 	}
 
@@ -217,8 +223,7 @@ public class BgProcessSession extends WebSession {
 
 	public Iterator<ExecutionBridge> getTasksPage(int start, int size) {
 		int min = Math.min(size, bridges.size());
-		// mgrigorov: maybe make a copy of the subList to avoid ConcurrentModificationExceptions ?!
-		return bridges.subList(start, min).iterator();
+		return new ArrayList<ExecutionBridge>(bridges.subList(start, min)).iterator();
 	}
 
 	public long countTasks() {
@@ -229,10 +234,69 @@ public class BgProcessSession extends WebSession {
 		return (BgProcessSession)get();
 	}
 }
+{% endhighlight %}
 
-## The WEB layer to handle/manage taks.
+## The WEB layer to handle/manage tasks.
 
+The WEB layer is more or less standard Wicket. The more complex class is TasksListPanel which uses an AjaxFallbackDefaultDataTable in order to display running tasks. This panel, contains an
+AjaxSelfUpdatingTimerBehavior that takes care of repainting the panel to show tasks progress. There are other user interactions, like creating new tasks and pruning "dead" tasks, but we will
+not get into the details.
+
+{% highlight java %}
+public class TasksListPanel extends Panel {
+	/**
+	 * @param id
+	 */
+	public TasksListPanel(String id) {
+		super(id);
+		setOutputMarkupId(true);
+		add( new AjaxLink<Void>("prune") {
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				BgProcessSession.getSession().pruneFinishedTasks();
+				target.add(TasksListPanel.this);
+			}
+		});
+		add( new AjaxSelfUpdatingTimerBehavior( Duration.seconds(5) ) );
+		ArrayList<IColumn<ExecutionBridge, String>> columns = new ArrayList<IColumn<ExecutionBridge,String>>();
+		columns.add( new PropertyColumn<ExecutionBridge, String>(Model.of("Actions"), "-") { 
+			@Override
+			public void populateItem(
+					Item<ICellPopulator<ExecutionBridge>> item,
+					String componentId, IModel<ExecutionBridge> rowModel) {
+				item.add( new ActionsPanel(componentId, rowModel) {
+					@Override
+					public void onAction(AjaxRequestTarget target) {
+						TasksListPanel.this.add(new AjaxSelfUpdatingTimerBehavior( Duration.seconds(5)));
+						target.add(TasksListPanel.this);
+					}
+				});
+			}
+		});
+		columns.add( new PropertyColumn<ExecutionBridge, String>(Model.of("Name"), "taskName") );
+		columns.add( new PropertyColumn<ExecutionBridge, String>(Model.of("Stoped"), "stop") );
+		columns.add( new PropertyColumn<ExecutionBridge, String>(Model.of("Canceled"), "cancel") );
+		columns.add( new PropertyColumn<ExecutionBridge, String>(Model.of("Message"), "message") );
+		columns.add( new PropertyColumn<ExecutionBridge, String>(Model.of("Progress"), "progress") );
+		columns.add( new PropertyColumn<ExecutionBridge, String>(Model.of("Finished"), "finished") );
+		AjaxFallbackDefaultDataTable<ExecutionBridge, String> tasks = new AjaxFallbackDefaultDataTable<ExecutionBridge, String>("tasks", columns, new TaskDataProvider(), 10);
+		add(tasks);
+	}
+	
+	@Override
+	public void onEvent(IEvent<?> event) {
+		if(event.getPayload() instanceof TaskLaunchedEvent) {
+			TaskLaunchedEvent event2 = (TaskLaunchedEvent)event.getPayload();
+			TasksListPanel.this.add(new AjaxSelfUpdatingTimerBehavior( Duration.seconds(5)));
+			event2.getTarget().add(TasksListPanel.this);
+		}
+	}
+}
+{% endhighlight %}
 
 # Final words
 
+We hope this example helps you get started in rolling your own solution. 
+
+Last but not least, I would like to thanks Martin Grigorov for guiding me in writing this small article, making nice amendments to it and for he's invaluable work maintaining Apache Wicket.
 
