@@ -62,7 +62,7 @@ public class DummyTask implements ITask {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DummyTask.class);
 
 	@javax.inject.Inject
-	private *IAnswerService* answerService;
+	private IAnswerService answerService;
 	
 	public DummyTask() {
 		Injector.get().inject(this);
@@ -174,7 +174,7 @@ public class BgProcessApplication extends WebApplication {
 			};
 	}
 
-	public static BgProcessApplication getApplication() {
+	public static BgProcessApplication get() {
 		return (BgProcessApplication)get();
 	}
 
@@ -230,7 +230,7 @@ public class BgProcessSession extends WebSession {
 		return bridges.size();
 	}
 
-	public static BgProcessSession getSession() {
+	public static BgProcessSession get() {
 		return (BgProcessSession)get();
 	}
 }
