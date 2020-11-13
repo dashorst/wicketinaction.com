@@ -54,6 +54,6 @@ IDE to autocomplete them for you should work fine.
 
 [1]: http://manning.com/dashorst/ch01_dashorst.pdf
 [2]: http://manning.com/dashorst/ch08_dashorst.pdf
-[3]: http://manning.com/dashorst/Wicket_Bonus-chapter15.pdf
+[3]: https://manning-content.s3.amazonaws.com/download/c/aa1bbbe-4b37-41d7-b285-c4bbac2f2ff2/Wicket_Bonus-chapter15.pdf
 [4]: http://code.google.com/p/wicketinaction/
 [5]: http://apache.org/licenses/LICENSE-2.0.html
