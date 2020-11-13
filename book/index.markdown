@@ -108,7 +108,7 @@ build rich, Ajax-driven features into your applications.
 </td>
 </tr>
 <tr>
-<td>15 Setting up a Wicket project (<a href="http://manning.com/dashorst/Wicket_Bonus-chapter15.pdf">free download</a>)</td>
+<td>15 Setting up a Wicket project (<a href="https://manning-content.s3.amazonaws.com/download/c/aa1bbbe-4b37-41d7-b285-c4bbac2f2ff2/Wicket_Bonus-chapter15.pdf">free download</a>)</td>
 </tr>
 </tbody>
 </table>
